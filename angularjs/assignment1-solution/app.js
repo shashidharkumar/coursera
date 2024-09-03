@@ -1,17 +1,18 @@
-(function () {
-'use strict';
-
-angular.module('DIApp', [])
-.controller('DIController', DIController);
-
-DIController.$inject = ['$scope', '$filter'];
-function DIController($scope, $filter) {
-  $scope.name = "Chow Mein, Chocolate Truffle Cake,Vegetable Fried Rice";
-
-  $scope.upper = function () {
-    var upCase = $filter('uppercase');
-    $scope.name = upCase($scope.name);
-  };
-}
-
-})();
+angular.module('LunchCheck', [])
+  .controller('LunchCheckController', ['$scope', function($scope) {
+    $scope.countMe = function() {
+      if (!$scope.lunchName) {
+        $scope.wordCount = 0;
+        return;
+      }
+      $scope.wordCount = $scope.lunchName.split(',').filter(Boolean).length;
+	  if ($scope.wordCount > 3) {
+        $scope.stateOfBeing = "Too much!";
+      }
+	  else
+	  {
+		  $scope.stateOfBeing = "Enjoy!";
+	  }
+	  
+    };
+  }]);
