@@ -7,11 +7,11 @@ angular.module('LunchCheck', [])
       }
       $scope.wordCount = $scope.lunchName.split(',').filter(Boolean).length;
 	  if ($scope.wordCount > 3) {
-        $scope.stateOfBeing = "Too much!";
+        $scope.lunchMessage = "Too much dishes you want to order!";
       }
 	  else
 	  {
-		  $scope.stateOfBeing = "Enjoy!";
+		  $scope.lunchMessage = "Enjoy your dishes!";
 	  }
 	  
     };
