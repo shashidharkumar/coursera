@@ -3,6 +3,8 @@ angular.module('LunchCheck', [])
     $scope.countMe = function() {
       if (!$scope.lunchName) {
         $scope.wordCount = 0;
+		alert("Please enter data first");
+		$scope.lunchMessage = "";
         return;
       }
       $scope.wordCount = $scope.lunchName.split(',').filter(Boolean).length;
