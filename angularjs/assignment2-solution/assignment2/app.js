@@ -2,26 +2,54 @@
     'use strict';
 
     angular.module('ShoppingListApp', [])
-    .controller('ShoppingListController', ShoppingListController);
+        .controller('ToBuyController', ToBuyController)
+        .controller('AlreadyBoughtController', AlreadyBoughtController)
+        .service('ShoppingListAppService', ShoppingListAppService);
 
-    ShoppingListController.$inject = ['$scope'];
-    function ShoppingListController($scope) {
-        var listCtrl = this;
+    ToBuyController.$inject = ['ShoppingListAppService'];
 
-        listCtrl.toBuyItems = [
+    function ToBuyController(ShoppingListAppService) {
+        var toBuyList = this;
+
+        toBuyList.items = ShoppingListAppService.getToBuyItems();
+
+        toBuyList.buyItem = function(itemIndex) {
+            ShoppingListAppService.buyItem(itemIndex);
+        };
+    }
+
+    AlreadyBoughtController.$inject = ['ShoppingListAppService'];
+
+    function AlreadyBoughtController(ShoppingListAppService) {
+        var alreadyBougthList = this;
+
+        alreadyBougthList.items = ShoppingListAppService.getAlreadyBoughtItems();
+    }
+
+    function ShoppingListAppService() {
+        var service = this;
+        var toBuyItems = [
             { name: "cookies", quantity: 10 },
-            { name: "chips", quantity: 5 },
-            { name: "soda", quantity: 2 },
-            { name: "chocolates", quantity: 20 },
-            { name: "bread", quantity: 1 }
+            { name: "cokes", quantity: 2 },
+            { name: "beers", quantity: 6 },
+            { name: "apples", quantity: 4 },
+            { name: "bananas", quantity: 7 }
         ];
+        var alreadyBoughtItems = [];
 
-        listCtrl.boughtItems = [];
+        service.buyItem = function(itemIndex) {
+            var item = toBuyItems[itemIndex];
 
-        listCtrl.buyItem = function(itemIndex) {
-            var item = listCtrl.toBuyItems[itemIndex];
-            listCtrl.toBuyItems.splice(itemIndex, 1);
-            listCtrl.boughtItems.push(item);
+            alreadyBoughtItems.push(item);
+            toBuyItems.splice(itemIndex, 1);
+        };
+
+        service.getToBuyItems = function() {
+            return toBuyItems;
+        };
+
+        service.getAlreadyBoughtItems = function() {
+            return alreadyBoughtItems;
         };
     }
 })();
